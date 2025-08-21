@@ -1,5 +1,5 @@
 import { LengthMetrics } from "@kit.ArkUI"
-import { ImageKnifeComponent } from "@ohos/imageknife";
+import { ImageKnife, ImageKnifeComponent } from "@ohos/imageknife";
 import { ImageViewer } from "../ImageViewer";
 
 @Component
@@ -19,6 +19,10 @@ export struct ImageViewerTestPage {
     // "https://upload.wikimedia.org/wikipedia/commons/8/87/Panorama_of_Hong_Kong_Harbour_from_The_Peak_dllu.jpg",
     "https://flash-scdn.jin10.com/26ab97cb-61db-42c0-895c-f8e833945012.jpg",
   ];
+
+  aboutToAppear(): void {
+    ImageKnife.getInstance().getFileCache().removeAll();
+  }
 
   build() {
     NavDestination() {

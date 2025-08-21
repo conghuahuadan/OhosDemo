@@ -27,6 +27,7 @@ export struct ImageSubView {
   @State offsetX: number = 0;
   @State offsetY: number = 0;
   @State imgScale: number = 1;
+  @State imgAlpha: number = 1;
   offsetXBefore: number = 0;
   offsetYBefore: number = 0;
   @Link alpha: number;
@@ -71,9 +72,17 @@ export struct ImageSubView {
             }
             this.srcInfo.src = data!;
           }
+          animateTo({
+            duration: 200,
+            onFinish: () => {
+            }
+          }, () => {
+            this.imgAlpha = 1;
+          })
         },
         onLoadStart: () => {
           this.loading = Visibility.Visible;
+          this.imgAlpha = 0;
         },
         onLoadFailed: () => {
         },
@@ -106,85 +115,89 @@ export struct ImageSubView {
   }
 
   build() {
-    Stack({
-      alignContent: Alignment.Center
-    }) {
-      if (this.imgType == 1) {
-        ImageKnifeComponent({
-          imageKnifeOption: this.imageKnifeOption
-        })
-      } else {
-        HDImageViewer({
-          srcInfo: this.srcInfo,
-          controller: this.controller,
-        })
-      }
+    Stack() {
       LoadingProgress()
-        .color(Color.Blue)
+        .color("#F5F5F5")
+        .opacity(1 - this.imgAlpha)
         .visibility(this.loading)
         .size({ width: 40, height: 40 })
-    }
-    .height("100%")
-    .scale({
-      x: this.imgScale,
-      y: this.imgScale,
-    })
-    .offset({
-      x: px2vp(this.offsetX),
-      y: px2vp(this.offsetY)
-    })
-    .parallelGesture(GestureGroup(GestureMode.Exclusive,
-      TapGesture({ count: 2, fingers: 1, distanceThreshold: 10 }),
-      TapGesture({ count: 1, fingers: 1, distanceThreshold: 10 })
-        .onAction((event: GestureEvent) => {
-          if (!event) {
-            return;
-          }
-          this.pageInfos.pop();
-        })
-    ))
-    .gesture(GestureGroup(GestureMode.Parallel,
-      PanGesture({
-        direction: this.paths.length > 1 ? PanDirection.Vertical : PanDirection.All,
-        fingers: 1,
-        distance: 5,
+      Stack({
+        alignContent: Alignment.Center
+      }) {
+        if (this.imgType == 1) {
+          ImageKnifeComponent({
+            imageKnifeOption: this.imageKnifeOption
+          })
+        } else {
+          HDImageViewer({
+            srcInfo: this.srcInfo,
+            controller: this.controller,
+          })
+        }
+      }
+      .opacity(this.imgAlpha)
+      .height("100%")
+      .scale({
+        x: this.imgScale,
+        y: this.imgScale,
       })
-        .onActionStart((event: GestureEvent) => {
+      .offset({
+        x: px2vp(this.offsetX),
+        y: px2vp(this.offsetY)
+      })
+      .parallelGesture(GestureGroup(GestureMode.Exclusive,
+        TapGesture({ count: 2, fingers: 1, distanceThreshold: 10 }),
+        TapGesture({ count: 1, fingers: 1, distanceThreshold: 10 })
+          .onAction((event: GestureEvent) => {
+            if (!event) {
+              return;
+            }
+            this.pageInfos.pop();
+          })
+      ))
+      .gesture(GestureGroup(GestureMode.Parallel,
+        PanGesture({
+          direction: this.paths.length > 1 ? PanDirection.Vertical : PanDirection.All,
+          fingers: 1,
+          distance: 5,
         })
-        .onActionUpdate((event: GestureEvent) => {
-          this.offsetX = this.offsetXBefore + vp2px(event.offsetX);
-          this.offsetY = this.offsetYBefore + vp2px(event.offsetY);
-          const distance = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
-          const scale = 1 - (distance / Math.max(this.dw, this.dh));
-          this.imgScale = scale;
-          this.alpha = scale;
-        })
-        .onActionEnd((event) => {
-          this.offsetXBefore = this.offsetX;
-          this.offsetYBefore = this.offsetY;
-          const distance =
-            Math.sqrt(this.offsetXBefore * this.offsetXBefore + this.offsetYBefore * this.offsetYBefore);
-          const scale = 1 - (distance / Math.max(this.dw, this.dh));
-          this.imgScale = scale;
-          this.alpha = scale;
-          if (Math.abs(event.offsetY) > px2vp(300)) {
-            this.onDismiss?.();
-          } else {
-            animateTo({
-              duration: 200,
-              onFinish: () => {
-              }
-            }, () => {
-              this.offsetX = 0;
-              this.offsetY = 0;
-              this.offsetXBefore = 0;
-              this.offsetYBefore = 0;
-              this.alpha = 1;
-              this.imgScale = 1;
-            })
-          }
-        }),
-    ))
+          .onActionStart((event: GestureEvent) => {
+          })
+          .onActionUpdate((event: GestureEvent) => {
+            this.offsetX = this.offsetXBefore + vp2px(event.offsetX);
+            this.offsetY = this.offsetYBefore + vp2px(event.offsetY);
+            const distance = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
+            const scale = 1 - (distance / Math.max(this.dw, this.dh));
+            this.imgScale = scale;
+            this.alpha = scale;
+          })
+          .onActionEnd((event) => {
+            this.offsetXBefore = this.offsetX;
+            this.offsetYBefore = this.offsetY;
+            const distance =
+              Math.sqrt(this.offsetXBefore * this.offsetXBefore + this.offsetYBefore * this.offsetYBefore);
+            const scale = 1 - (distance / Math.max(this.dw, this.dh));
+            this.imgScale = scale;
+            this.alpha = scale;
+            if (Math.abs(distance) > px2vp(300)) {
+              this.onDismiss?.();
+            } else {
+              animateTo({
+                duration: 200,
+                onFinish: () => {
+                }
+              }, () => {
+                this.offsetX = 0;
+                this.offsetY = 0;
+                this.offsetXBefore = 0;
+                this.offsetYBefore = 0;
+                this.alpha = 1;
+                this.imgScale = 1;
+              })
+            }
+          }),
+      ))
+    }
   }
 }
 
