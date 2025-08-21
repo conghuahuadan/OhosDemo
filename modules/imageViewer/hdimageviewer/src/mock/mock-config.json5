@@ -1,0 +1,5 @@
+{
+  "@ohos.display": {  // 待替换的moduleName
+    "source": "src/mock/arkui.display.mock.ets"  // mock代码的路径，相对于模块根目录
+  }
+}

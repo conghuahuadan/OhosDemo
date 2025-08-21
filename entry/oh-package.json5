@@ -1,0 +1,15 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "imageviewer": "file:../modules/imageViewer",
+    "@ohos/imageknife": "^3.2.7",
+    "@ohos/axios": "2.2.5-rc.1",
+    "@pura/harmony-utils": "^1.3.6"
+  }
+}
+
