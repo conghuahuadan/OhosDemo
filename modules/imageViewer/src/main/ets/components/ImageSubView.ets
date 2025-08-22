@@ -30,7 +30,7 @@ export struct ImageSubView {
   @State imgAlpha: number = 1;
   offsetXBefore: number = 0;
   offsetYBefore: number = 0;
-  @Link alpha: number;
+  // @Link alpha: number;
   onDismiss: () => void = () => {
   };
   @State loading: Visibility = Visibility.Visible;
@@ -125,78 +125,29 @@ export struct ImageSubView {
         alignContent: Alignment.Center
       }) {
         if (this.imgType == 1) {
-          ImageKnifeComponent({
-            imageKnifeOption: this.imageKnifeOption
-          })
+          // ImageKnifeComponent({
+          //   imageKnifeOption: this.imageKnifeOption
+          // })
+          //   .geometryTransition(this.path)
+          Image(this.path)
+            .objectFit(ImageFit.Contain)
+            .geometryTransition(this.path)
         } else {
-          HDImageViewer({
-            srcInfo: this.srcInfo,
-            controller: this.controller,
-          })
+          // HDImageViewer({
+          //   srcInfo: this.srcInfo,
+          //   controller: this.controller,
+          // })
+          //   .geometryTransition(this.path)
+          Image(this.path)
+            .objectFit(ImageFit.Contain)
+            .geometryTransition(this.path)
         }
       }
-      .opacity(this.imgAlpha)
+      .width("100%")
       .height("100%")
-      .scale({
-        x: this.imgScale,
-        y: this.imgScale,
+      .onClick(() => {
+        this.onDismiss();
       })
-      .offset({
-        x: px2vp(this.offsetX),
-        y: px2vp(this.offsetY)
-      })
-      .parallelGesture(GestureGroup(GestureMode.Exclusive,
-        TapGesture({ count: 2, fingers: 1, distanceThreshold: 10 }),
-        TapGesture({ count: 1, fingers: 1, distanceThreshold: 10 })
-          .onAction((event: GestureEvent) => {
-            if (!event) {
-              return;
-            }
-            this.pageInfos.pop();
-          })
-      ))
-      .gesture(GestureGroup(GestureMode.Parallel,
-        PanGesture({
-          direction: this.paths.length > 1 ? PanDirection.Vertical : PanDirection.All,
-          fingers: 1,
-          distance: 5,
-        })
-          .onActionStart((event: GestureEvent) => {
-          })
-          .onActionUpdate((event: GestureEvent) => {
-            this.offsetX = this.offsetXBefore + vp2px(event.offsetX);
-            this.offsetY = this.offsetYBefore + vp2px(event.offsetY);
-            const distance = Math.sqrt(this.offsetX * this.offsetX + this.offsetY * this.offsetY);
-            const scale = 1 - (distance / Math.max(this.dw, this.dh));
-            this.imgScale = scale;
-            this.alpha = scale;
-          })
-          .onActionEnd((event) => {
-            this.offsetXBefore = this.offsetX;
-            this.offsetYBefore = this.offsetY;
-            const distance =
-              Math.sqrt(this.offsetXBefore * this.offsetXBefore + this.offsetYBefore * this.offsetYBefore);
-            const scale = 1 - (distance / Math.max(this.dw, this.dh));
-            this.imgScale = scale;
-            this.alpha = scale;
-            if (Math.abs(distance) > px2vp(300)) {
-              this.onDismiss?.();
-            } else {
-              animateTo({
-                duration: 200,
-                onFinish: () => {
-                }
-              }, () => {
-                this.offsetX = 0;
-                this.offsetY = 0;
-                this.offsetXBefore = 0;
-                this.offsetYBefore = 0;
-                this.alpha = 1;
-                this.imgScale = 1;
-              })
-            }
-          }),
-      ))
     }
   }
 }

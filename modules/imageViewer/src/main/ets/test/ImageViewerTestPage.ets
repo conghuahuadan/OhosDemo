@@ -61,9 +61,15 @@ export struct ImageViewerTestPage {
                 .height(120)
                 .aspectRatio(4 / 3)
                 .borderRadius(2)
+                .geometryTransition(url)
                 .backgroundColor("#f5f5f5")
                 .onClick(() => {
-                  new ImageViewer(this.pageInfos).setPath(url).show();
+                  this.getUIContext().animateTo({
+                    duration: 250,
+                    curve: Curve.EaseIn,
+                  }, () => {
+                    new ImageViewer(this.pageInfos).setPath(url).show();
+                  })
                 })
             } else {
               Image(url)
@@ -71,9 +77,15 @@ export struct ImageViewerTestPage {
                 .height(120)
                 .aspectRatio(4 / 3)
                 .borderRadius(2)
+                .geometryTransition(url)
                 .backgroundColor("#f5f5f5")
                 .onClick(() => {
-                  new ImageViewer(this.pageInfos).setPath(url).show();
+                  this.getUIContext().animateTo({
+                    duration: 400,
+                    curve: Curve.EaseIn,
+                  }, () => {
+                    new ImageViewer(this.pageInfos).setPath(url).show();
+                  })
                 })
             }
           })
@@ -108,9 +120,15 @@ export struct ImageViewerTestPage {
               .height(120)
               .aspectRatio(4 / 3)
               .borderRadius(2)
+              .geometryTransition(url)
               .backgroundColor("#f5f5f5")
               .onClick(() => {
-                new ImageViewer(this.pageInfos).setPaths(this.pics2).setIndex(index).show();
+                this.getUIContext().animateTo({
+                  duration: 400,
+                  curve: Curve.EaseIn,
+                }, () => {
+                  new ImageViewer(this.pageInfos).setPaths(this.pics2).setIndex(index).show();
+                })
               })
           })
         }

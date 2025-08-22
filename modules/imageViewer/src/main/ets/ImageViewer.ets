@@ -41,6 +41,7 @@ export class ImageViewer {
       'paths': this.paths,
       'index': this.index,
     };
-    this.pageInfos.pushPathByName("imageViewerPage", params)
+    // "imageViewerPage", params
+    this.pageInfos.pushPath({ name: 'imageViewerPage', param: params }, false)
   }
 }

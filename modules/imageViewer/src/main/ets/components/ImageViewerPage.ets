@@ -11,7 +11,7 @@ import { WindowUtil } from "@pura/harmony-utils";
 @Component
 export struct ImageViewerPage {
   params?: Record<string, Object>;
-  @State alpha: number = 1;
+  // @State alpha: number = 1;
   paths: string[] = [];
   index: number = 0;
   controller: SwiperController = new SwiperController();
@@ -31,15 +31,28 @@ export struct ImageViewerPage {
 
   build() {
     NavDestination() {
-      Column() {
+      Stack() {
+        Stack() {
+
+        }
+        .width('100%')
+        .height('100%')
+        // .backgroundColor("#ffffff")
+        // .opacity(this.alpha)
+
         Swiper(this.controller) {
           ForEach(this.paths, (value: string) => {
             ImageSubView({
               path: value,
               paths: this.paths,
-              alpha: this.alpha,
+              // alpha: this.alpha,
               onDismiss: () => {
-                this.pageInfos.pop();
+                this.getUIContext().animateTo({
+                  duration: 400,
+                  curve: Curve.EaseIn,
+                }, () => {
+                  this.pageInfos.pop(false);
+                })
               }
             })
           })
@@ -49,36 +62,41 @@ export struct ImageViewerPage {
         .loop(false)
       }
     }
-    .backgroundColor("#ffffff")
-    .opacity(this.alpha)
     .hideTitleBar(true)
-    .customTransition((op: NavigationOperation, isEnter: boolean): Array<NavDestinationTransition> | undefined => {
-      let transitionOneEvent = () => {
-      };
-      if (op === NavigationOperation.PUSH) {
-        if (isEnter) {
-          this.alpha = 0;
-          transitionOneEvent = () => {
-            this.alpha = 1;
-          };
-        }
-      } else if (op === NavigationOperation.POP) {
-        if (!isEnter) {
-          transitionOneEvent = () => {
-            this.alpha = 0;
-          };
-        }
-      }
-      const transitionOne: NavDestinationTransition = {
-        duration: 200,
-        delay: 0,
-        curve: Curve.EaseInOut,
-        event: transitionOneEvent,
-        onTransitionEnd: () => {
-        }
-      };
-      return [transitionOne];
-    })
+    // .customTransition((op: NavigationOperation, isEnter: boolean): Array<NavDestinationTransition> | undefined => {
+    //   let transitionOneEvent = () => {
+    //   };
+    //   if (op === NavigationOperation.PUSH) {
+    //     if (isEnter) {
+    //       // this.alpha = 0;
+    //       transitionOneEvent = () => {
+    //       };
+    //     }
+    //   } else if (op === NavigationOperation.POP) {
+    //     if (!isEnter) {
+    //       transitionOneEvent = () => {
+    //       };
+    //     }
+    //   }
+    //   const transitionOne: NavDestinationTransition = {
+    //     duration: 400,
+    //     delay: 0,
+    //     curve: Curve.EaseInOut,
+    //     event: transitionOneEvent,
+    //     onTransitionEnd: () => {
+    //     }
+    //   };
+    //   return [transitionOne];
+    // })
     .mode(NavDestinationMode.DIALOG)
+    .onBackPressed(() => {
+      this.getUIContext().animateTo({
+        duration: 400,
+        curve: Curve.EaseIn,
+      }, () => {
+        this.pageInfos.pop(false);
+      })
+      return true;
+    })
   }
 }
