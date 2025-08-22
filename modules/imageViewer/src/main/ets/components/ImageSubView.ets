@@ -97,20 +97,20 @@ export struct ImageSubView {
     const ph = size.height;
     const dw = DisplayUtil.getWidth();
     const dh = DisplayUtil.getHeight();
-    let maxScale = 1;
+    let defaultScale = 1;
     let center: common2D.Point = { x: pw / 2, y: 0 };
     if (pw / ph < dw / dh) {
       center = { x: pw / 2, y: 0 };
-      maxScale = dw / pw;
-      this.controller.setMaxScale(maxScale)
-      this.controller.setDoubleTapZoomScale(maxScale)
-      this.controller.setScaleAndCenter(maxScale, center);
+      defaultScale = dw / pw;
+      this.controller.setMaxScale(defaultScale * 3)
+      this.controller.setDoubleTapZoomScale(defaultScale)
+      this.controller.setScaleAndCenter(defaultScale, center);
       this.controller.modifier?.doInvalidate();
     } else if (pw / ph > dw / dh) {
       center = { x: pw / 2, y: ph / 2 };
-      maxScale = dh / ph;
-      this.controller.setMaxScale(maxScale)
-      this.controller.setDoubleTapZoomScale(maxScale)
+      defaultScale = dh / ph;
+      this.controller.setMaxScale(defaultScale)
+      this.controller.setDoubleTapZoomScale(defaultScale)
     }
   }
 
