@@ -109,7 +109,7 @@ export struct ImageSubView {
     } else if (pw / ph > dw / dh) {
       center = { x: pw / 2, y: ph / 2 };
       defaultScale = dh / ph;
-      this.controller.setMaxScale(defaultScale)
+      this.controller.setMaxScale(defaultScale * 3)
       this.controller.setDoubleTapZoomScale(defaultScale)
     }
   }

@@ -1,29 +1,45 @@
-import { router } from '@kit.ArkUI';
+import { LengthMetrics, router } from '@kit.ArkUI';
+import { ImageViewerPage, ImageViewerTestPage } from 'imageviewer';
+import { Pages } from './Pages';
 
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
+  @Provide("Jin10Navigation") pageInfos: NavPathStack = new NavPathStack();
 
   aboutToAppear(): void {
-    router.replaceUrl({ url: 'pages/MainNavConfigPage' });
   }
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
-        .onClick(() => {
-          this.message = 'Welcome';
-        })
+    Navigation(this.pageInfos) {
+      Column() {
+        Stack() {
+        }.height(44 + 24)
+
+        Flex({ wrap: FlexWrap.Wrap, space: { main: LengthMetrics.vp(12), cross: LengthMetrics.vp(12) } }) {
+          Button("大图")
+            .onClick((e) => {
+              this.pageInfos.pushPathByName(Pages.imageViewerTestPage, null)
+            })
+        }
+      }
+      .padding({ left: 16, right: 16, })
     }
-    .height('100%')
-    .width('100%')
+    .onAppear(() => {
+    })
+    .titleMode(NavigationTitleMode.Full)
+    .hideTitleBar(false)
+    .hideToolBar(false)
+    .mode(NavigationMode.Stack)
+    .navDestination(this.PageMap)
+  }
+
+  @Builder
+  PageMap(name: string, params?: Record<string, Object>) {
+    if (name == Pages.imageViewerTestPage) {
+      ImageViewerTestPage()
+    } else if (name == Pages.imageViewerPage) {
+      ImageViewerPage({ params: params })
+    }
   }
 }

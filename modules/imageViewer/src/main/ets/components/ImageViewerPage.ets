@@ -70,7 +70,7 @@ export struct ImageViewerPage {
         }
       }
       const transitionOne: NavDestinationTransition = {
-        duration: 200,
+        duration: 300,
         delay: 0,
         curve: Curve.EaseInOut,
         event: transitionOneEvent,
