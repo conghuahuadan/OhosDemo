@@ -1,4 +1,5 @@
 export class Pages {
-  static imageViewerTestPage: string = "imageViewerTestPage"
-  static imageViewerPage: string = "imageViewerPage"
+  static ImageViewerTestPage: string = "ImageViewerTestPage"
+  static ImageViewerPage: string = "ImageViewerPage"
+  static SwiperPage: string = "SwiperPage"
 }

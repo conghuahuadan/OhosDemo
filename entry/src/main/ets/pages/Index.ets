@@ -1,6 +1,7 @@
 import { LengthMetrics, router } from '@kit.ArkUI';
 import { ImageViewerPage, ImageViewerTestPage } from 'imageviewer';
 import { Pages } from './Pages';
+import { SwiperPage } from './swiper/SwiperPage';
 
 @Entry
 @Component
@@ -19,7 +20,11 @@ struct Index {
         Flex({ wrap: FlexWrap.Wrap, space: { main: LengthMetrics.vp(12), cross: LengthMetrics.vp(12) } }) {
           Button("大图")
             .onClick((e) => {
-              this.pageInfos.pushPathByName(Pages.imageViewerTestPage, null)
+              this.pageInfos.pushPathByName(Pages.ImageViewerTestPage, null)
+            })
+          Button("Swiper")
+            .onClick((e) => {
+              this.pageInfos.pushPathByName(Pages.SwiperPage, null)
             })
         }
       }
@@ -36,10 +41,12 @@ struct Index {
 
   @Builder
   PageMap(name: string, params?: Record<string, Object>) {
-    if (name == Pages.imageViewerTestPage) {
+    if (name == Pages.ImageViewerPage) {
       ImageViewerTestPage()
-    } else if (name == Pages.imageViewerPage) {
+    } else if (name == Pages.ImageViewerPage) {
       ImageViewerPage({ params: params })
+    } else if (name == Pages.SwiperPage) {
+      SwiperPage()
     }
   }
 }
