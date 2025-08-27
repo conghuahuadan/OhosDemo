@@ -1,60 +1,100 @@
 import { DeviceUtil, DisplayUtil } from "@pura/harmony-utils"
+import { hilog } from "@kit.PerformanceAnalysisKit";
+
+const column = 5;
 
 @Component
 export struct FlashQuickEntranceLayout {
   @State containerHeight: number = 0
   controller: SwiperController = new SwiperController();
-  containerHeight1: number = 0;
-  containerHeight2: number = 0;
+  subHeight1: number = 0;
+  subHeight2: number = 0;
+  onIndexChangedCall?: (index: number) => void
 
   aboutToAppear(): void {
-    const obs = this.getUIContext().getUIInspector().createComponentObserver('swiper_sub_view_0');
-    obs.on('layout', () => {
-      if (this.containerHeight2 == 0) {
-        this.containerHeight2 = px2vp(this.getUIContext()
-          .getComponentUtils()
-          .getRectangleById('swiper_sub_view_1')
-          .size
-          .height);
-      }
-
-        this.containerHeight1 = px2vp(this.getUIContext()
-          .getComponentUtils()
-          .getRectangleById('swiper_sub_view_0')
-          .size
-          .height);
-        this.containerHeight = this.containerHeight1;
-    });
   }
+
+  swiping: boolean = false;
+  index = 0;
+  count = 0;
 
   build() {
     Swiper(this.controller) {
       ForEach(["", ""], (item: Object, index) => {
         SwiperSubView({
-          len: index % 2 == 0 ? 5 : 8
+          len: index % 2 == 0 ? 5 : 8,
+          pageIndex: index,
+          onHeightCall: (height, pageIndex) => {
+            setTimeout(() => {
+              if (pageIndex == 0) {
+                this.subHeight1 = height
+                this.count++;
+                if (this.count <= 2) {
+                  this.containerHeight = height
+                }
+              } else {
+                this.subHeight2 = height
+              }
+            }, 0)
+          }
         })
-          .onAreaChange((o, n) => {
-
-          })
           .id(`swiper_sub_view_${index}`)
-          .width(index % 2 == 0 ? `${(5 / 5.5) * 100}%` : "100%")
+          .height('auto')
+          .width(index % 2 == 0 ? `${(1 - 1 / column / 2) * 100}%` : "100%")
           .backgroundColor(index % 2 == 0 ? Color.Yellow : Color.Orange)
       })
     }
-    .displayCount('auto')
-    .height(this.containerHeight || 'auto')
     .width('100%')
+    .height(this.containerHeight || 'auto')
+    .onContentWillScroll((res) => {
+      animateTo({
+        duration: 200
+      }, () => {
+        this.index = res.currentIndex;
+        this.updateContainerHeight();
+      })
+      return true
+    })
+    .onAnimationStart((index, extraInfo) => {
+      this.swiping = true;
+    })
+    .onAnimationEnd((index, extraInfo) => {
+      this.swiping = false;
+      this.index = index;
+      this.updateContainerHeight();
+    })
+    .indicator(false)
+    .displayCount('auto')
     .cachedCount(2)
     .loop(false)
+  }
+
+  updateContainerHeight() {
+    if (this.index == 0 && !this.swiping) {
+      this.onIndexChangedCall?.(this.index);
+      animateTo({
+        duration: 200
+      }, () => {
+        this.containerHeight = this.subHeight1;
+      })
+    } else if (this.index == 1 && !this.swiping) {
+      this.onIndexChangedCall?.(this.index);
+      animateTo({
+        duration: 200
+      }, () => {
+        this.containerHeight = this.subHeight2;
+      })
+    }
   }
 }
 
 @Component
 export struct SwiperSubView {
+  pageIndex = 0;
   len = 5;
   items: string[] = [];
-  column = 5;
   @State itemWidth: number = 0;
+  onHeightCall?: (height: number, pageIndex: number) => void
 
   aboutToAppear(): void {
     for (let i = 0; i < this.len; i++) {
@@ -70,23 +110,24 @@ export struct SwiperSubView {
             Stack().width(40).height(40).backgroundColor(Color.Green)
             Text(`${index}`).fontSize(15).fontColor('#333333')
           }
-          .margin({ bottom: 10 })
+          .padding({ bottom: 10 })
         }
         .width(this.itemWidth)
         .backgroundColor(Color.Orange)
       })
     }
     .onAreaChange((o, n) => {
-      // console.info(`父容器宽高：${n.width} × ${n.height}`);
-      const width = Number(n.width) / this.column;
+      this.onHeightCall?.(Number(n.height), this.pageIndex);
+      const width = Number(n.width) / column;
       if (this.itemWidth != width) {
         this.itemWidth = width;
       }
     })
     .layoutDirection(GridDirection.Row)
-    .maxCount(this.column)
-    .height('auto')
+    .maxCount(column)
     .width('100%')
+    .height('auto')
     .backgroundColor(Color.Pink)
   }
 }
+

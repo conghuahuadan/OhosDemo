@@ -1,6 +1,8 @@
 import { LengthMetrics, router } from '@kit.ArkUI';
 import { ImageViewerPage, ImageViewerTestPage } from 'imageviewer';
+import { LottiePage } from './lottie/LottiePage';
 import { Pages } from './Pages';
+import { RefreshPage } from './refresh/RefreshPage';
 import { SwiperPage } from './swiper/SwiperPage';
 
 @Entry
@@ -26,6 +28,14 @@ struct Index {
             .onClick((e) => {
               this.pageInfos.pushPathByName(Pages.SwiperPage, null)
             })
+          Button("Lottie")
+            .onClick((e) => {
+              this.pageInfos.pushPathByName(Pages.LottiePage, null)
+            })
+          Button("Refresh")
+            .onClick((e) => {
+              this.pageInfos.pushPathByName(Pages.RefreshPage, null)
+            })
         }
       }
       .padding({ left: 16, right: 16, })
@@ -41,12 +51,14 @@ struct Index {
 
   @Builder
   PageMap(name: string, params?: Record<string, Object>) {
-    if (name == Pages.ImageViewerPage) {
+    if (name == Pages.ImageViewerTestPage) {
       ImageViewerTestPage()
-    } else if (name == Pages.ImageViewerPage) {
-      ImageViewerPage({ params: params })
-    } else if (name == Pages.SwiperPage) {
+    }  else if (name == Pages.SwiperPage) {
       SwiperPage()
+    } else if (name == Pages.LottiePage) {
+      LottiePage()
+    } else if (name == Pages.RefreshPage) {
+      RefreshPage()
     }
   }
 }
