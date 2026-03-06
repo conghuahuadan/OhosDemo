@@ -53,7 +53,9 @@ struct Index {
   PageMap(name: string, params?: Record<string, Object>) {
     if (name == Pages.ImageViewerTestPage) {
       ImageViewerTestPage()
-    }  else if (name == Pages.SwiperPage) {
+    } else if (name == Pages.ImageViewerPage) {
+      ImageViewerPage({ params: params })
+    } else if (name == Pages.SwiperPage) {
       SwiperPage()
     } else if (name == Pages.LottiePage) {
       LottiePage()
