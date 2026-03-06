@@ -1,9 +1,15 @@
-import { LengthMetrics, router } from '@kit.ArkUI';
+import { display, LengthMetrics, router } from '@kit.ArkUI';
+import { AppUtil } from '@pura/harmony-utils';
 import { ImageViewerPage, ImageViewerTestPage } from 'imageviewer';
+import { StatusBar } from '../components/StatusBar';
+import { AsKey } from '../constants/AsKey';
+import { ProjectUtil } from '../utils/ProjectUtil';
 import { LottiePage } from './lottie/LottiePage';
 import { Pages } from './Pages';
 import { RefreshPage } from './refresh/RefreshPage';
 import { SwiperPage } from './swiper/SwiperPage';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+import { WebPage } from './web/WebPage';
 
 @Entry
 @Component
@@ -11,15 +17,18 @@ struct Index {
   @Provide("Jin10Navigation") pageInfos: NavPathStack = new NavPathStack();
 
   aboutToAppear(): void {
+    hilog.info(0, "statusBarHeight", `首页：${AppStorage.get("statusBarHeight")}`)
   }
 
   build() {
     Navigation(this.pageInfos) {
       Column() {
-        Stack() {
-        }.height(44 + 24)
-
+        StatusBar()
         Flex({ wrap: FlexWrap.Wrap, space: { main: LengthMetrics.vp(12), cross: LengthMetrics.vp(12) } }) {
+          Button("网页")
+            .onClick((e) => {
+              this.pageInfos.pushPathByName(Pages.WebPage, null)
+            })
           Button("大图")
             .onClick((e) => {
               this.pageInfos.pushPathByName(Pages.ImageViewerTestPage, null)
@@ -61,6 +70,8 @@ struct Index {
       LottiePage()
     } else if (name == Pages.RefreshPage) {
       RefreshPage()
+    } else if (name == Pages.WebPage) {
+      WebPage()
     }
   }
 }

@@ -1,6 +1,7 @@
 import { LengthMetrics } from "@kit.ArkUI"
 import { ImageKnife, ImageKnifeComponent } from "@ohos/imageknife";
 import { ImageViewer } from "../ImageViewer";
+import { hilog } from "@kit.PerformanceAnalysisKit";
 
 @Component
 export struct ImageViewerTestPage {
@@ -11,7 +12,7 @@ export struct ImageViewerTestPage {
     "https://gd-hbimg.huaban.com/5af8c69096f047d7aa2c7366086e8a866c7f436d15248-fJQCru_fw1200",
     "https://flash-scdn.jin10.com/975427b4-37c2-415a-b029-1fe2d7f86bdc.png",
     "https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg",
-  // "https://upload.wikimedia.org/wikipedia/commons/8/87/Panorama_of_Hong_Kong_Harbour_from_The_Peak_dllu.jpg",
+    // "https://upload.wikimedia.org/wikipedia/commons/8/87/Panorama_of_Hong_Kong_Harbour_from_The_Peak_dllu.jpg",
   ];
   pics2: string[] = [
     "https://flash-scdn.jin10.com/975427b4-37c2-415a-b029-1fe2d7f86bdc.png",
@@ -22,15 +23,14 @@ export struct ImageViewerTestPage {
 
   aboutToAppear(): void {
     ImageKnife.getInstance().getFileCache().removeAll();
+    hilog.info(0, "statusBarHeight", `图片：${AppStorage.get("statusBarHeight")}`)
   }
 
   build() {
     NavDestination() {
       Column() {
-        Stack() {
-
-        }
-        .height(44 + 24)
+        Blank()
+          .height(AppStorage.get("statusBarHeight"))
 
         Text("单图")
           .width('100%')

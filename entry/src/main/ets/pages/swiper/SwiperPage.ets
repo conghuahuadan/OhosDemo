@@ -1,6 +1,8 @@
 import { FlashQuickEntranceLayout, SwiperSubView } from "./components/FlashQuickEntranceLayout"
 import { FlashQuickEntranceIndicator } from "./components/FlashQuickEntrnaceIndicator";
 import { hilog } from "@kit.PerformanceAnalysisKit";
+import { StatusBar } from "../../components/StatusBar";
+import { ProjectUtil } from "../../utils/ProjectUtil";
 
 @Component
 export struct SwiperPage {
@@ -12,6 +14,7 @@ export struct SwiperPage {
   build() {
     NavDestination() {
       Column() {
+        StatusBar()
         FlashQuickEntranceLayout({
           onIndexChangedCall: (index) => {
             this.flashIndex = index;
@@ -24,5 +27,6 @@ export struct SwiperPage {
         Stack().width('100%').height(100).backgroundColor(Color.Brown)
       }
     }
+    .hideTitleBar(true)
   }
 }

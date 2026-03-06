@@ -1,5 +1,6 @@
 import { JinRefreshView } from "../lottie/components/JinRefreshView"
 import { ComponentContent } from "@kit.ArkUI"
+import { StatusBar } from "../../components/StatusBar"
 
 
 @Builder
@@ -55,6 +56,7 @@ export struct RefreshPage {
   build() {
     NavDestination() {
       Column() {
+        StatusBar()
         Refresh({
           refreshing: $$this.isRefreshing,
           refreshingContent: this.contentNode
@@ -74,6 +76,6 @@ export struct RefreshPage {
         .onStateChange((s: RefreshStatus) => console.info(`state=${s}`))
       }
       .height('100%')
-    }
+    }.hideTitleBar(true)
   }
 }
