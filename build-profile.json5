@@ -6,12 +6,12 @@
         "type": "HarmonyOS",
         "material": {
           "storeFile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/p12.p12",
-          "storePassword": "0000001999AABA88982892AF10D4012BAB273E05C3F7340100088592A38A54C89A7FE6C0134ACF4ABD",
+          "storePassword": "00000019092B32AC18D27953F8BF17BEA0E27809BD4CDA39D4C33DCF8EF9CD3ED3A0BFA36AD93F704B",
           "keyAlias": "harmony",
-          "keyPassword": "00000019324545F05A447978DCD76F20A3B8B99939ACAF86222014E9162CBD8809C2B0EDEF502501BA",
+          "keyPassword": "00000019741D914BE4E80657C304309E94B716D8060078343500FDE893186636BA6460AEF0C2169485",
           "signAlg": "SHA256withECDSA",
-          "profile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/发布证书Release.p7b",
-          "certpath": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/发布证书.cer"
+          "profile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/调试证书Debug.p7b",
+          "certpath": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/调试证书.cer"
         }
       }
     ],
@@ -49,7 +49,7 @@
           "applyToProducts": [
             "default"
           ]
-        }
+        },
       ]
     },
     {
