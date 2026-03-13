@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "/Users/cwq/.ohos/config/default_OhosDemo_t5NhSaQ-gQyCUt5tHQtJwaedS9UK4q__GbzRdbHJQOE=.cer",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001ABE17D780FAA9557229EEEBC5D78F07025138C2584A8EA93080D55B3D72670F9F5F4449034C3B",
-          "profile": "/Users/cwq/.ohos/config/default_OhosDemo_t5NhSaQ-gQyCUt5tHQtJwaedS9UK4q__GbzRdbHJQOE=.p7b",
+          "storeFile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/p12.p12",
+          "storePassword": "0000001999AABA88982892AF10D4012BAB273E05C3F7340100088592A38A54C89A7FE6C0134ACF4ABD",
+          "keyAlias": "harmony",
+          "keyPassword": "00000019324545F05A447978DCD76F20A3B8B99939ACAF86222014E9162CBD8809C2B0EDEF502501BA",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/cwq/.ohos/config/default_OhosDemo_t5NhSaQ-gQyCUt5tHQtJwaedS9UK4q__GbzRdbHJQOE=.p12",
-          "storePassword": "0000001A4D1224CEC19997017F340D225117C9DF62ABAD23E2C049298FFA982421A993C5F42AAB36F763"
+          "profile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/发布证书Release.p7b",
+          "certpath": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/发布证书.cer"
         }
       }
     ],
