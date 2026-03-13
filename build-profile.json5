@@ -1,24 +1,38 @@
 {
   "app": {
     "signingConfigs": [
-      {
-        "name": "default",
-        "type": "HarmonyOS",
-        "material": {
-          "storeFile": "./key/p12.p12",
-          "storePassword": "0000001973B04DB5E4632415DC181099DF324A060D6D168830EEB29B889F73BE8603A8B4CDAC68FAE9",
-          "keyAlias": "harmony",
-          "keyPassword": "00000019EBC76E428D81DA3DF593785C971854D1660750D52FB9C2D8E52F3C033AB5E81FCFE367E438",
-          "signAlg": "SHA256withECDSA",
-          "profile": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/内部证书Release.p7b",
-          "certpath": "/Volumes/External/DevEcoStudioProjects/Andy/OhosDemo/key/发布证书.cer"
-        }
-      }
+
     ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
+        "targetSdkVersion": "5.1.1(19)",
+        "compatibleSdkVersion": "5.0.5(17)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      },
+      {
+        "name": "internal",
+        "signingConfig": "internal",
+        "targetSdkVersion": "5.1.1(19)",
+        "compatibleSdkVersion": "5.0.5(17)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      },
+      {
+        "name": "release",
+        "signingConfig": "release",
         "targetSdkVersion": "5.1.1(19)",
         "compatibleSdkVersion": "5.0.5(17)",
         "runtimeOS": "HarmonyOS",
@@ -47,7 +61,9 @@
         {
           "name": "default",
           "applyToProducts": [
-            "default"
+            "default",
+            "internal",
+            "release"
           ]
         },
       ]
