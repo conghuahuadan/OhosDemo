@@ -42,20 +42,20 @@ if [[ -z "$ENDPOINT" || -z "$SIGNATURE" || -z "$SEC_TOKEN" || -z "$BUILD_KEY" ]]
   echo "Response: $BODY"
   exit 1
 fi
-# =============== 2) 找到 APK 并上传 ===============
+# =============== 2) 找到 HAP 并上传 ===============
 HAP_DIR="entry/build/internal/outputs/default/"
 find "$HAP_DIR" -maxdepth 1 -type f > /dev/null 2>&1 || true
-APK_PATH="$(find "$HAP_DIR" -maxdepth 1 -type f -name '*-signed.hap' | tail -n 1)"
-if [[ -z "${APK_PATH:-}" || ! -f "$APK_PATH" ]]; then
+HAP_PATH="$(find "$HAP_DIR" -maxdepth 1 -type f -name '*-signed.hap' | tail -n 1)"
+if [[ -z "${HAP_PATH:-}" || ! -f "$HAP_PATH" ]]; then
   echo "未找到 hap：$HAP_DIR/*.hap"
   exit 1
 fi
-echo "正在上传，hap路径: $APK_PATH"
+echo "正在上传，hap路径: $HAP_PATH"
 UPLOAD_RESP="$(curl -# -X POST "$ENDPOINT" \
   --form-string "signature=${SIGNATURE}" \
   --form-string "x-cos-security-token=${SEC_TOKEN}" \
   --form-string "key=${BUILD_KEY}" \
-  -F "file=@${APK_PATH};type=application/octet-stream" \
+  -F "file=@${HAP_PATH};type=application/octet-stream" \
   -w "\nHTTP_STATUS:%{http_code}"
 )"
 UPLOAD_HTTP_STATUS="$(echo "$UPLOAD_RESP" | sed -n 's/^HTTP_STATUS://p')"
@@ -119,9 +119,9 @@ if [[ "$BUILD_RESULT" == "SUCCESS" ]]; then
   BUILD_QR_URL=$(echo "$BUILD_INFO" | jq -r '.buildQRCodeURL // empty')
   APP_VERSION=$(echo "$BUILD_INFO" | jq -r '.buildVersion // empty')
   APP_VERSION_NO=$(echo "$BUILD_INFO" | jq -r '.buildVersionNo // empty')
-  APK_DOWNLOAD_URL="https://www.pgyer.com/${BUILD_SHORTCUT_URL}"
-  APK_DOWNLOAD_URL="${APK_DOWNLOAD_URL/pgyer/xcxwo}"
-  APK_QR_CODE="${BUILD_QR_URL/pgyer/xcxwo}"
+  HAP_DOWNLOAD_URL="https://www.pgyer.com/${BUILD_SHORTCUT_URL}"
+  HAP_DOWNLOAD_URL="${HAP_DOWNLOAD_URL/pgyer/xcxwo}"
+  HAP_QR_CODE="${BUILD_QR_URL/pgyer/xcxwo}"
   echo "二维码: $BUILD_QR_URL"
   WEBHOOK_SUCCESS="${WEBHOOK_SUCCESS:-https://oapi.dingtalk.com/robot/send?access_token=${DingtalkToken}}"
 
@@ -134,8 +134,8 @@ if [[ "$BUILD_RESULT" == "SUCCESS" ]]; then
 
 构建时间：${SUCCESS_TIME}
 
-下载链接：[地址](${APK_DOWNLOAD_URL})
-![](${APK_QR_CODE})
+下载链接：[地址](${HAP_DOWNLOAD_URL})
+![](${HAP_QR_CODE})
 EOF
 )
   dingding "OhosDemo" "$MSG" "$WEBHOOK_SUCCESS"
