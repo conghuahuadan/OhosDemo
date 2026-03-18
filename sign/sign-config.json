@@ -1,0 +1,43 @@
+{
+  "signs": [
+    {
+      "name": "default",
+      "type": "HarmonyOS",
+      "material": {
+        "storeFile": "./sign/p12.p12",
+        "storePassword": "0000001973B04DB5E4632415DC181099DF324A060D6D168830EEB29B889F73BE8603A8B4CDAC68FAE9",
+        "keyAlias": "harmony",
+        "keyPassword": "00000019EBC76E428D81DA3DF593785C971854D1660750D52FB9C2D8E52F3C033AB5E81FCFE367E438",
+        "signAlg": "SHA256withECDSA",
+        "profile": "./sign/调试证书Debug.p7b",
+        "certpath": "./sign/调试证书.cer"
+      }
+    },
+    {
+      "name": "internal",
+      "type": "HarmonyOS",
+      "material": {
+        "storeFile": "./sign/p12.p12",
+        "storePassword": "0000001973B04DB5E4632415DC181099DF324A060D6D168830EEB29B889F73BE8603A8B4CDAC68FAE9",
+        "keyAlias": "harmony",
+        "keyPassword": "00000019EBC76E428D81DA3DF593785C971854D1660750D52FB9C2D8E52F3C033AB5E81FCFE367E438",
+        "signAlg": "SHA256withECDSA",
+        "profile": "./sign/内部证书Release.p7b",
+        "certpath": "./sign/发布证书.cer"
+      }
+    },
+    {
+      "name": "release",
+      "type": "HarmonyOS",
+      "material": {
+        "storeFile": "./sign/p12.p12",
+        "storePassword": "0000001973B04DB5E4632415DC181099DF324A060D6D168830EEB29B889F73BE8603A8B4CDAC68FAE9",
+        "keyAlias": "harmony",
+        "keyPassword": "00000019EBC76E428D81DA3DF593785C971854D1660750D52FB9C2D8E52F3C033AB5E81FCFE367E438",
+        "signAlg": "SHA256withECDSA",
+        "profile": "./sign/发布证书Release.p7b",
+        "certpath": "./sign/发布证书.cer"
+      }
+    }
+  ]
+}
