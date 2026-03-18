@@ -15,7 +15,9 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# 编译android
+JOB_NAME="OhosDemo"
+
+# 编译harmony
 ohpm install --all --registry https://ohpm.openharmony.cn/ohpm/ --strict_ssl true
 hvigorw --sync -p product=default --analyze=normal --parallel --incremental --daemon
 hvigorw assembleHap -p product=internal -p buildMode=debug
@@ -107,7 +109,6 @@ dingding() {
   resp=$(curl -sS -X POST "$webhook" -H "Content-Type: application/json" -d "$payload" || true)
   echo "上传第(4)步: 推送钉钉通知成功"
 }
-JOB_NAME="OhosDemo"
 GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 if [[ "$GIT_BRANCH" == "HEAD" || -z "$GIT_BRANCH" ]]; then
   GIT_BRANCH="$(git name-rev --name-only HEAD 2>/dev/null | sed 's#remotes/origin/##' | sed 's#~[0-9]*##')"
@@ -138,7 +139,7 @@ if [[ "$BUILD_RESULT" == "SUCCESS" ]]; then
 ![](${HAP_QR_CODE})
 EOF
 )
-  dingding "OhosDemo" "$MSG" "$WEBHOOK_SUCCESS"
+  dingding "${JOB_NAME}" "$MSG" "$WEBHOOK_SUCCESS"
 else
   WEBHOOK_FAIL="${WEBHOOK_FAIL:-https://oapi.dingtalk.com/robot/send?access_token=${DingtalkToken}}"
   MSG=$(cat <<EOF
@@ -151,7 +152,7 @@ else
 [查看详情](${BUILD_URL})
 EOF
 )
-  dingding "OhosDemo" "$MSG" "$WEBHOOK_FAIL"
+  dingding "${JOB_NAME}" "$MSG" "$WEBHOOK_FAIL"
   # 构建失败仍然退出非0，方便 Jenkins 标红
   exit 1
 fi
