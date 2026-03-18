@@ -108,7 +108,7 @@ while (tryCount < 10) {
 }
 
 def buildResult = "SUCCESS"
-def jobName = "OhosDemo鸿蒙版"
+def jobName = "OhosDemo"
 def buildUrl = "https://www.pgyer.com/jinshishuju"
 def webhook = ""
 if (buildResult == "SUCCESS" && buildInfo != null) {
