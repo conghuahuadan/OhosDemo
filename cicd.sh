@@ -47,7 +47,7 @@ HAP_DIR="entry/build/internal/outputs/default/"
 find "$HAP_DIR" -maxdepth 1 -type f > /dev/null 2>&1 || true
 APK_PATH="$(find "$HAP_DIR" -maxdepth 1 -type f -name '*-signed.hap' | tail -n 1)"
 if [[ -z "${APK_PATH:-}" || ! -f "$APK_PATH" ]]; then
-  echo "未找到 apk：$HAP_DIR/*.hap"
+  echo "未找到 hap：$HAP_DIR/*.hap"
   exit 1
 fi
 echo "正在上传，hap路径: $APK_PATH"
